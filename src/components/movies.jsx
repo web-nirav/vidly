@@ -1,34 +1,43 @@
 import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
-import Paging from './paging';
-import Like from './like';
+import Pagination from "./common/pagination";
+import Like from "./common/like";
+import { paginate } from "../utils/paginate";
 
 class Movies extends Component {
   state = {
-    movies: getMovies()
+    movies: getMovies(),
+    pageSize: 2,
+    currentPage: 1
   };
 
   handleLike = movie => {
-    const movies = this.state.movies.map((m) => {
-        if(m._id === movie._id){
-            m.liked = !m.liked;
-        }
-        return m;
+    const movies = this.state.movies.map(m => {
+      if (m._id === movie._id) {
+        m.liked = !m.liked;
+      }
+      return m;
     });
-    this.setState({movies});
- }
+    this.setState({ movies });
+  };
 
   handleDelete = movie => {
     const movies = this.state.movies.filter(m => m._id !== movie._id);
     this.setState({ movies });
   };
 
-  render() {
-    const { length: count } = this.state.movies;
+  handlePageChange = page => {
+    // console.log(page);
+    this.setState({ currentPage: page });
+  };
 
+  render() {
+    // using object destructuring and rename it to count
+    const { length: count } = this.state.movies;
+    const { currentPage, pageSize, movies: allMovies } = this.state;
     if (count === 0) return <p>There are no movies in the database.</p>;
 
-    let pages = count / 2;
+    const movies = paginate(allMovies, currentPage, pageSize);
 
     return (
       <React.Fragment>
@@ -45,13 +54,15 @@ class Movies extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.movies.map(movie => (
+            {movies.map(movie => (
               <tr key={movie._id}>
                 <td>{movie.title}</td>
                 <td>{movie.genre.name}</td>
                 <td>{movie.numberInStock}</td>
                 <td>{movie.dailyRentalRate}</td>
-                <td><Like onLike={this.handleLike} movie={movie} /></td>
+                <td>
+                  <Like onLike={this.handleLike} movie={movie} />
+                </td>
                 <td>
                   <button
                     onClick={() => this.handleDelete(movie)}
@@ -64,7 +75,12 @@ class Movies extends Component {
             ))}
           </tbody>
         </table>
-        <Paging pages={pages} />
+        <Pagination
+          itemCount={count}
+          pageSize={pageSize}
+          currentPage={currentPage}
+          onPageChange={this.handlePageChange}
+        />
       </React.Fragment>
     );
   }
