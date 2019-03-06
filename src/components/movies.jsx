@@ -1,10 +1,22 @@
 import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
+import Paging from './paging';
+import Like from './like';
 
 class Movies extends Component {
   state = {
     movies: getMovies()
   };
+
+  handleLike = movie => {
+    const movies = this.state.movies.map((m) => {
+        if(m._id === movie._id){
+            m.liked = !m.liked;
+        }
+        return m;
+    });
+    this.setState({movies});
+ }
 
   handleDelete = movie => {
     const movies = this.state.movies.filter(m => m._id !== movie._id);
@@ -15,6 +27,8 @@ class Movies extends Component {
     const { length: count } = this.state.movies;
 
     if (count === 0) return <p>There are no movies in the database.</p>;
+
+    let pages = count / 2;
 
     return (
       <React.Fragment>
@@ -27,6 +41,7 @@ class Movies extends Component {
               <th>Stock</th>
               <th>Rate</th>
               <th />
+              <th />
             </tr>
           </thead>
           <tbody>
@@ -36,6 +51,7 @@ class Movies extends Component {
                 <td>{movie.genre.name}</td>
                 <td>{movie.numberInStock}</td>
                 <td>{movie.dailyRentalRate}</td>
+                <td><Like onLike={this.handleLike} movie={movie} /></td>
                 <td>
                   <button
                     onClick={() => this.handleDelete(movie)}
@@ -48,6 +64,7 @@ class Movies extends Component {
             ))}
           </tbody>
         </table>
+        <Paging pages={pages} />
       </React.Fragment>
     );
   }
