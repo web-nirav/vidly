@@ -1,8 +1,7 @@
 import React from "react";
 
-const Like = props => {
+const Like = ({ movie, onLike }) => {
   let classes = "fa fa-heart";
-  const { movie, onLike } = props;
   if (!movie.liked) classes += "-o";
   return (
     <i
