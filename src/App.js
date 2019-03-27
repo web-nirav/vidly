@@ -7,11 +7,12 @@ import Customers from "./components/customers";
 import Rentals from "./components/rentals";
 import MoviesForm from "./components/movieForm";
 import "./App.css";
+import LoginForm from './components/loginForm';
 
 class App extends Component {
   render() {
     return (
-      <React.Fragment>
+      <div>
         <NavBar />
         <main className="container">
           <Switch>
@@ -20,11 +21,12 @@ class App extends Component {
             <Route path="/customers" component={Customers} />
             <Route path="/rentals" component={Rentals} />
             <Route path="/not-found" component={NotFound} />
+            <Route path="/login" component={LoginForm} />
             <Redirect from="/" exact to="/movies" />
             <Redirect to="/not-found" />
           </Switch>
         </main>
-      </React.Fragment>
+      </div>
     );
   }
 }
