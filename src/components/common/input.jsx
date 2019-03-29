@@ -1,17 +1,11 @@
 import React from "react";
 
-const Input = ({ name, label, value, error, onChange }) => {
+// here ...rest is rest operator used because we have this patter of parameter like type={type} which can be used with spread operator like {...rest}
+const Input = ({ name, label, error, ...rest }) => {
   return (
     <div className="form-group">
       <label htmlFor="{name}">{label}</label>
-      <input
-        value={value}
-        name={name}
-        onChange={onChange}
-        id={name}
-        type="text"
-        className="form-control"
-      />
+      <input {...rest} name={name} id={name} className="form-control" />
       {error && <div className="alert alert-danger">{error}</div>}
     </div>
   );
