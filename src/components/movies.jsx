@@ -108,6 +108,7 @@ class Movies extends Component {
       searchQuery,
       sortColumn
     } = this.state;
+    const { user } = this.props;
 
     if (count === 0) return <p>There are no movies in the database.</p>;
 
@@ -122,15 +123,17 @@ class Movies extends Component {
             onItemSelect={this.handleSelectGenre}
           />
         </div>
-        <div className="co">
-          <Link to="/movies/new">
-            <button
-              className="btn btn-primary btn-sm"
-              style={{ marginBottom: 20 }}
-            >
-              New Movie
-            </button>
-          </Link>
+        <div className="col">
+          {user && (
+            <Link to="/movies/new">
+              <button
+                className="btn btn-primary btn-sm"
+                style={{ marginBottom: 20 }}
+              >
+                New Movie
+              </button>
+            </Link>
+          )}
 
           <p>Showing {totalCount} movies in the database.</p>
           <SearchBox value={searchQuery} onChange={this.handleSearch} />
