@@ -1,8 +1,7 @@
-import config from "../cofing/config.json";
 import http from "./httpService";
 import logger from "./logService";
 
-const apiEndpoint = config.apiEndpoint + "movies";
+const apiEndpoint = "movies";
 
 function movieUrl(movieId) {
   return `${apiEndpoint}/${movieId}`;

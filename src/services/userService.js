@@ -1,8 +1,7 @@
-import config from "../cofing/config.json";
 import http from "./httpService";
 // import logger from "./logService";
 
-const apiEndpoint = config.apiEndpoint + "users";
+const apiEndpoint = "users";
 
 export function register(user) {
   return http.post(apiEndpoint, {

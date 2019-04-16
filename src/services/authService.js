@@ -1,9 +1,8 @@
-import config from "../cofing/config.json";
 import jwtDecode from "jwt-decode";
 import http from "./httpService";
 // import logger from "./logService";
 
-const apiEndpoint = config.apiEndpoint + "auth";
+const apiEndpoint = "auth";
 const tokenKey = "token";
 
 http.setJwt(getJwt()); // this will just set the jwtoken in header of every axios request
